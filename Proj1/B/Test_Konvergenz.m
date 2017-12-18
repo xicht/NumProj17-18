@@ -31,6 +31,8 @@ for i=1:n
     aprioriError2(i) = f(b)/factorial(2*i+2)*(b-a)^2*alphak*prod((samplePts(xk~=abs(samplePts))-xk).^2);
 end
 
+aprioriError1 = abs(aprioriError1/integral);
+aprioriError2 = abs(aprioriError2/integral);
 relError = abs(integral-approxIntegral)/abs(integral);
 
 integral
@@ -39,7 +41,7 @@ relError
 aprioriError1
 aprioriError2
 
-figure(1)
+figure
 semilogy(h,relError,'rx-','LineWidth',2,'MarkerSize',9)
 hold on
 semilogy(h,aprioriError1,'b:','LineWidth',2,'MarkerSize',9)
