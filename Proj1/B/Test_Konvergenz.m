@@ -40,12 +40,16 @@ aprioriError1
 aprioriError2
 
 figure(1)
-semilogy(h,relError,'ro-','LineWidth',2,'MarkerSize',9)
+semilogy(h,relError,'rx-','LineWidth',2,'MarkerSize',9)
 hold on
 semilogy(h,aprioriError1,'b:','LineWidth',2,'MarkerSize',9)
-semilogy(h,aprioriError2,'b-','LineWidth',2,'MarkerSize',9)
-semilogy(h,exp(-h.^1.3)*relError(1),'r:','LineWidth',2,'MarkerSize',9)
+semilogy(h,aprioriError2,'b--','LineWidth',2,'MarkerSize',9)
 hold off
+legend('Relativer Fehler Quadratur','Fehlerabschätzung 1','Fehlerabschätzung 2')
+xlabel({'Anzahl Quadraturknoten'})
+ylabel({'Relativer Fehler'})
+
+
 
 
 

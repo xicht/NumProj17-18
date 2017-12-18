@@ -182,18 +182,20 @@ Jede einzelne Quadratur-Formel ist für Polynome vom Grad $ 2N_x+1 $ bzw. $ 2N_y+
 
 \paragraph{4. Testen der Implementierung.} Beispiele, a priori Fehlerschätzer (Satz 4.18), Konvergenz (Satz 4.20).
 \begin{align*}
-	Q(f)-Q_n(f)=\frac{f^{(n+1)}(\xi)}{(2n+2)!}\int_{a}^{b}w(x)\prod_{j=0}^{n}(x-x_j)^2dx \\
-	|Q(f)-Q_n(f)|\leq\frac{\norm[\infty]{f^{(n+1)}}}{(2n+2)!}(b-a)^{2n+3}
+	Q(f)-Q_n(f)=\frac{f^{(n+1)}(\xi)}{(2n+2)!}\int_{a}^{b}w(x)\prod_{j=0}^{n}(x-x_j)^2dx 
 \end{align*}
+\begin{align}\label{eq:apriori1}
+	|Q(f)-Q_n(f)|\leq\frac{\norm[\infty]{f^{(n+1)}}}{(2n+2)!}(b-a)^{2n+3}
+\end{align}
 Für symmetrische Intervalle $ [-c,c] $ erhält man wegen der Symmetrie der Knoten mit
 \begin{align*}
 	(x-x_j)^2(x-x_{n-j})^2=(x^2-x_j^2)^2\leq c^4\quad \text{also} \\
 	|Q(f)-Q_n(f)|\leq 2 \frac{\norm[\infty]{f^{(n+1)}}}{(2n+2)!}c^{2n+3}.
 \end{align*}
 Genauso kann man aber das Integral folgendermaßen abschätzen:
-\begin{align*}
+\begin{align}\label{eq:apriori2}
 	\int_{a}^{b}\prod_{j=0}^{n}(x-x_j)^2dx \leq (b-a)^2\int_{a}^{b}\prod_{j=0 , \ j\neq k}^{n}(x-x_j)^2dx=(b-a)^2\alpha_k\prod_{j=0 , \ j\neq k}^{n}(x_k-x_j)^2,
-\end{align*}
+\end{align}
 denn es liegt ein Polynom vom Grad $ 2n $ vor. Man wähle $ k $ natürlich so, dass die Differenzen möglichst klein sind. Im Falle symmetrischer Intervalle erhält man
 \begin{align*}
 	\int_{-c}^{c}\prod_{j=0}^{n}(x-x_j)^2dx \leq 4c^2\alpha_k\prod_{j=0 , \ j\neq k}^{n}x_j^2,
@@ -257,6 +259,13 @@ In $ x $ hat $ p $ folglich den Grad $ k+j+1=n+1 $ und in $ y $ also $ n $. Dami
 	\includegraphics[width=0.9\linewidth]{Rel-Fehler-1D.eps}
 	\caption{Vergleich von relativen Fehler der Quadratur von Polynomen verschiedenen Grades über verschiedene Anzahl von Quadraturknoten.}
 	\label{fig:relError1D}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\linewidth]{Rel-Fehler-Exp.eps}
+\caption{Relativer Fehler der Quadratur $e^x$ verschiedene Anzahl von Quadraturknoten. Die Fehlerabschätzungen wurden durch ~\eqref{eq:apriori1} bzw ~\eqref{eq:apriori2} berechnet.}
+\label{fig:relError1DExp}
 \end{figure}
 
 \begin{figure}[h]
