@@ -1,0 +1,37 @@
+all : vectorcut palindrom frobeniusnorm detlaplace det dec2float computeLU
+
+INC=-I./ -std=c99 -lm
+
+myVectLib.o : myVectLib.c myVectLib.h
+	gcc -c -o myVectLib.o $(INC) myVectLib.c
+
+mySortLib.o : mySortLib.c mySortLib.h
+	gcc -c -o mySortLib.o $(INC) mySortLib.c
+	
+myMatrixLib.o : myMatrixLib.c myMatrixLib.h myVectLib.o
+	gcc -c -o myMatrixLib.o $(INC) myMatrixLib.c myVectLib.o
+
+myMatrixIndirLib.o : myMatrixIndirLib.c myMatrixIndirLib.h myVectLib.o
+	gcc -c -o myMatrixIndirLib.o $(INC) myMatrixIndirLib.c myVectLib.o
+
+vectorcut : vectorcut.c vector.c vector.h 
+	gcc -o vectorcut $(INC) vectorcut.c vector.c
+	
+palindrom : palindrom.c
+	gcc -o palindrom $(INC) palindrom.c
+	
+frobeniusnorm : frobeniusnorm.c myMatrixIndirLib.o
+	gcc -o frobeniusnorm $(INC) frobeniusnorm.c myMatrixIndirLib.o
+	
+detlaplace : detlaplace.c myMatrixIndirLib.o
+	gcc -o detlaplace $(INC) detlaplace.c myMatrixIndirLib.o
+	
+det : det.c det.o
+	gcc -o det $(INC) det.c myMatrixIndirLib.o
+	
+dec2float : dec2float.c myMatrixIndirLib.o
+	gcc -o dec2float $(INC) dec2float.c
+	
+computeLU : computeLU.c myMatrixIndirLib.o
+	gcc -o det $(INC) computeLU.c myMatrixIndirLib.o
+	
