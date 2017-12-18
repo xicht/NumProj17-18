@@ -3,23 +3,25 @@ b=1;
 c=0;
 d=5;
 n=20;
-l=10;
+m=3;
+l=0;
 
-coeff1 = (1:2:2*n+3-l);
-coeff2 = 3*(1:2:2*n+3-l);
-p = @(x,y) polyval(coeff1,x)*polyval(coeff2,y);
+steps = floor(n/m);
 
-h=(1:n);
-approxIntegral = zeros(n,1);
+relError = zeros(steps,n+2);
+approxIntegral = zeros(1,n+2);
+h=(1:n+2);
+for i = 1:steps-1
+    coeffx = ones(1,2*i*m+2);
+    coeffy = ones(1,(2*n+2)-(2*i*m+2));
+    p = @(x,y) polyval(coeffx,x)*polyval(coeffy,y);
 
-integral = diff(polyval(polyint(coeff1),[a,b]))*diff(polyval(polyint(coeff2),[c,d]));
-
-for i=1:n
-    approxIntegral(i) = QuadraturR(i,[a b],[c d],p);
+    integral = diff(polyval(polyint(coeffx),[a,b]))*diff(polyval(polyint(coeffy),[c,d]));
+    for k=1:n+2
+        approxIntegral(k) = QuadraturR(k,[a b], [c,d],p);
+    end
+    relError(i,:) = abs(integral-approxIntegral)/abs(integral);
 end
-
-
-relError = abs(integral-approxIntegral)/abs(integral);
 
 
 integral
@@ -28,7 +30,14 @@ relError
 
 
 figure(1)
-semilogy(h,relError,'ro-','LineWidth',2,'MarkerSize',9)
+semilogy(h,relError(1,:),'x-','MarkerSize',3,'LineWidth',1,'MarkerSize',9)
 hold on
-semilogy(h,exp(-h.^1.3)*relError(1),'r:','LineWidth',2,'MarkerSize',9)
+for i = 2:steps 
+    semilogy(h,relError(i,:),'x-','MarkerSize',3,'LineWidth',1,'MarkerSize',9)
+end
 hold off
+legend('Grad 8x34','Grad 14x28','Grad 20x22','Grad 26x16','Grad 32x10')
+axis([0 23 -inf inf])
+xlabel({'Anzahl Quadraturknoten'})
+ylabel({'Relativer Fehler'})
+
