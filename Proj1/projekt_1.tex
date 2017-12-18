@@ -13,6 +13,10 @@
 \usepackage{titlesec} %Preferences for Sections
 \usepackage[titles]{tocloft} %Preferences for Table of Contents
 \usepackage{graphicx} %Including Graphics
+\usepackage{epstopdf} %allows including in pdfs
+\usepackage{caption}  %für die nutzung von subfigures
+\usepackage{subcaption} %für die nutzung von subfigures
+
 
 
 
@@ -247,6 +251,22 @@ Um die Ordnung der Quadratur auf $ \hat{T} $ zu untersuchen, sei $ p\in P_n $, a
 	p(\Psi(x,y))(1-x)=\sum_{k=0}^{n}\sum_{j=0}^{n-k}a_{jk}x^k(1-x)^{j+1}y^j.
 \end{align*}
 In $ x $ hat $ p $ folglich den Grad $ k+j+1=n+1 $ und in $ y $ also $ n $. Damit $ p $ exakt integriert wird, muss $ n+1=2N_x+1 $ oder $ N_x> \lfloor n/2 \rfloor $ und $ N_y\geq\lfloor n/2 \rfloor $ erfüllt sein.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\includegraphics[width=1\linewidth]{Runge-fkt-poly.eps}
+		\caption{Vergleich von Runge-Funktion und den Polynomen, die die implizit in der Gauß-Quadratur genutzt werden.}
+		\label{fig:sub1}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.7\textwidth}
+		\includegraphics[width=1\linewidth]{Runge-fkt-Quadratur.eps}
+		\caption{Vergleich der Werte der Quadratur Runge-Funktion, entsprechend der Anzahl der Quadraturknoten.}
+		\label{fig:sub2}
+	\end{subfigure}
+	\caption{Runge-Funktion und Interpolation}
+	\label{fig:test}
+\end{figure}
 
 \end{document}
 

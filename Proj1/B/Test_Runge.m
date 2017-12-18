@@ -36,4 +36,5 @@ figure
 bar(integral)
 hold on
 plot(0:11,ones(1,12)*double(2.746801533890031721722543852889922297301999191799401617939))
+axis([0 11 -inf inf])
 hold off
