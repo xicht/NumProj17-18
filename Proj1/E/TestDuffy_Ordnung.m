@@ -33,3 +33,15 @@ end
 integral
 approxIntegral
 relError
+
+figure(1)
+semilogy(h,relError(1,:),'x-','MarkerSize',3,'LineWidth',1,'MarkerSize',9)
+hold on
+for i = 2:2:13 
+    semilogy(h,relError(i,:),'x-','MarkerSize',3,'LineWidth',1,'MarkerSize',9)
+end
+hold off
+legend('Grad 0x0','Grad 0x1','Grad 2x1','Grad 3x1','Grad 3x3','Grad 7x7','Grad 26x26')
+%axis([0 23 -inf inf])
+xlabel({'Anzahl Quadraturknoten'})
+ylabel({'Relativer Fehler'})
