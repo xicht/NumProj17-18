@@ -33,10 +33,10 @@ end
 figure
 plot(line,f1)
 hold on
-plot(line,polyval(p5, line), '--')
-plot(line,polyval(p10, line), '--')
-plot(line,polyval(p20, line), '--')
-plot(line,polyval(p30, line), '--')
+plot(line,polyval(p5, line), '--','LineWidth',2)
+plot(line,polyval(p10, line), '--','LineWidth',2)
+plot(line,polyval(p20, line), '--','LineWidth',2)
+plot(line,polyval(p30, line), '--','LineWidth',2)
 hold off
 legend('Runge-Funktion','P5','P10','P20','P30')
 
