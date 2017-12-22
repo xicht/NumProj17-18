@@ -12,6 +12,8 @@
 \usepackage{paralist} %Preferences for Enumeration
 \usepackage{titlesec} %Preferences for Sections
 \usepackage{graphicx} %Including Graphics
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 
 
@@ -82,7 +84,7 @@ Da das gegeben Intervall und die Gewichtsfunktion symmetrisch sind, folgt für di
 Zur konkreten Implementierung wurden zwei Weg verfolgt:
 \begin{enumerate}[(i)]
 	\item Die Quadraturknoten wurden gemäß Satz 4.23 des Numerik-Skriptums über eine Eigenwertaufgabe und die Quadraturgewichte über entsprechende Eigenvektoren berechnet.
-	\item Über die rekursive Darstellung der Legendre-Polynome lassen sich lokale Beziehungen zwischen Nullstellen zweier Polynome $ L_n $ und $ L_{n+1} $ herleiten. Mittels bekannter Nullstellen des $ n $-ten Polynomes und eines Bisektions- bzw. Newton-Verfahrens wurden die Nullstellen von $ L_{n+1} $ ermittelt.
+	\item Über die rekursive Darstellung der Legendre-Polynome lassen sich lokale Beziehungen zwischen Nullstellen zweier Polynome $ L_n $ und $ L_{n+1} $ herleiten. Mittels bekannter Nullstellen des $ n $-ten Polynoms und eines Bisektions- bzw. Newton-Verfahrens wurden die Nullstellen von $ L_{n+1} $ ermittelt.
 \end{enumerate}
 In beiden Fällen können die Gewichte mit Hilfe der Nullstellen von $ L_{n+1} $ und der Legendre-Polynome $ L_0,\ldots,L_n $ explizit angegeben werden.
 
@@ -106,7 +108,7 @@ wobei $ (v_j)_1 $ die 1. Komponente eines Eigenvektors $ v_j $ von $ T $ ist.
 Mit der internen Funktion \texttt{eig} von Matlab wurden nun die Eigenwerte bzw. Eigenvektoren berechnet und gemäß \eqref{eq:weights} die Quadraturen aufgestellt.
 
 \subsection{Direkte Knotenberechnung} 
-Wegen der Symmetrie um den Ursprung genügt es die nichtnegativen Nullstellen zu be\-trachten. Für ungerades $ n $ ist $ 0 $ stets ein Quadraturknoten, also eine Nullstelle von $ L_n $.
+Wegen der Symmetrie der Legendrepolynome um den Ursprung genügt es die nichtnegativen Nullstellen zu be\-trachten. Für ungerades $ n $ ist $ 0 $ stets ein Quadraturknoten, also eine Nullstelle von $ L_n $.
 \newline
 Wir nutzen nun folgende Eigenschaften zur besseren Bestimmung der Knoten.
 \begin{itemize}
@@ -123,14 +125,18 @@ Darauf aufbauend wendet man bei bekannten nichtnegativen Nullstellen von $ L_n $
 Bei der durchgeführten Implementierung wurde folgendes Vorgehen realisiert:
 \newline
 \textbf{Input:} Funktion $ f $ inklusive erster sowie zweiter Ableitung, Intervallpunkte $ x_1 $, $ x_2 $, zwischen denen sich die (eindeutige) Nullstelle befindet und eine Toleranz TOL.
-\begin{enumerate}[(1)]
-	\item \textbf{while} (($ |f(x_1)|>TOL $ or $ |x_1-x_2|>TOL $) and $ f''(x_1)f''(x_2)>0 $) \textbf{do:}
-	\item ein Durchlauf des Bisektions-Verfahrens mit $ x_1 $ und $ x_2 $ (Skriptum: Algorithmus 7.1);
-	\item \textbf{end do;}
-	\item \textbf{while} ($ |f(x_t)|<TOL $) \textbf{do:}
-	\item ein Durchlauf der Newton-Iteration mit Startwert $ x_1 $ (Skriptum: Algorithmus 7.12, allerdings mit anderem Abbruchkriterium);
-	\item \textbf{end do;}
-\end{enumerate}
+\begin{algorithm}[h!]
+	\begin{algorithmic}[1]
+		\caption{Nullstelle finden}
+		\While{(($ |f(x_1)|>TOL $ or $ |x_1-x_2|>TOL $) and $ f''(x_1)f''(x_2)>0 $)}
+		\State Eine Iteration des Bisektions-Verfahrens mit $ x_1 $ und $ x_2 $ (Skriptum: Algorithmus 7.1);
+		\EndWhile 
+		\While {($ |f(x_t)|<TOL $)}
+		\State Newton-Iteration mit Startwert $ x_1 $ bzw dem Rückgabewert der letzten Iteration (Skriptum: Algorithmus 7.12, allerdings mit anderem Abbruchkriterium);
+		\EndWhile
+	\end{algorithmic}
+\end{algorithm}
+
 Die Bedingung an die zweiten Ableitungen in den Eckpunkten ist heuristisch und wurde ge\-fordert, in der Hoffnung die Nullstelle befinde sich in einem Intervall, indem die erste Ableitung nicht verschwindet. Da die Nullstelle einfach ist, existiert so ein Intervall. Wenn die Krümmung des Graphen in diesem Bereich überall gleichartig ist und dadurch (möglicherweise) Extrema nicht vorhanden sind, konvergiert das Newton-Verfahren, falls man sich bereits nahe genug an der Nullstelle befindet. In allen Tests mit einem Polynom-Grad $ n\leq50 $ hat diese Heuristik tatsächlich zu einer Konvergenz geführt. Für große Wert handelte es sich bei den Grenzwerten in der Regel nicht mehr um die gewünschten Nullstellen. Ein Vergleich beider Implementierungen folgt im vierten Unterabschnitt.
 
 \subsection{Explizite Darstellung der Gewichte} 
@@ -213,7 +219,7 @@ In der zweiten Spalte befinden sich die Ergebnisse über das Eigenwertproblem, in
 
 Die Tabelle suggeriert, dass für niedrigen Grad die Knoten und damit auch die Quadraturen das selbe leisten. Für höhere Ordnung unterscheiden sie sich schon merkbar. Tatsächlich sind für $ n\geq 45 $ die Ergebnisse über die direkte Berechnung nicht mehr sinnvoll (sie befinden sich nicht in den betrachteten Intervallen). Die erste Implementierung liefert aber noch für größere Werte von $ n $ die Nullstellen der Legendre-Polynome.
 
-Die Gegenüberstellung unterstreicht die schlechte Kondition, die das Berechnen von Nullstellen eines Polynoms birgt. Eine konkrete Fehlerquelle ist nach einer Beobachtung das Newton-Verfahren. Das Abbruchkriterium des Bisektions-Verfahrens, das Forderungen an die zweiten Ableitungen in den betrachteten Näherungen macht, führt nicht mehr zur Konvergenz gegen die gewünschte Nullstelle. Vielmehr verlässt der Algorithmus den betrachteten Bereich und konvergiert gegen eine (beliebige) andere Nullstelle. Dies passiert gerade in der Nähe der Eins, wo Knoten nahe beieinander liegen (also bis zur zweiten Nachkommastelle übereinstimmen). Dieses Verhalten lässt sich durch das starke Variieren der Ableitung zwischen solchen Nullstellen begründen. Um dies zu umgehen, könnte man nun nur das Bisektions-Verfahren verwenden. Allerdings steigt dabei die Laufzeit spürbar an, wenn nur der Grad $ n $ größer als 20 ist.
+Die Gegenüberstellung unterstreicht die schlechte Konditionierung, die das Berechnen von Nullstellen eines Polynoms birgt. Eine konkrete Fehlerquelle ist nach einer Beobachtung das Newton-Verfahren. Das Abbruchkriterium des Bisektions-Verfahrens, das Forderungen an die zweiten Ableitungen in den betrachteten Näherungen macht, führt nicht mehr zur Konvergenz gegen die gewünschte Nullstelle. Vielmehr verlässt der Algorithmus den betrachteten Bereich und konvergiert gegen eine (beliebige) andere Nullstelle. Dies passiert gerade in der Nähe der Eins, wo Knoten nahe beieinander liegen (also bis zur zweiten Nachkommastelle übereinstimmen). Dieses Verhalten lässt sich durch das starke Variieren der Ableitung zwischen solchen Nullstellen begründen. Um dies zu umgehen, könnte man nun nur das Bisektions-Verfahren verwenden. Allerdings steigt dabei die Laufzeit spürbar an, wenn nur der Grad $ n $ größer als 20 ist.
 
 Zusammenfassend zeigt sich die erste Implementierung über das Eigenwertproblem unempfindlicher gegenüber der Höhe der Ordnung.
 
