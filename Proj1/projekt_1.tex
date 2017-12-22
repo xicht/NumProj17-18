@@ -20,10 +20,13 @@
 %%%%%%%%%%%%%%%%% Section Preferences %%%%%%%%%%%%%%%%%
 
 \titleformat{\section}[block]{\large\centering\scshape}{\thesection.}{4pt}{}{}
-\titlespacing{\section}{0pt}{25pt}{12pt}[0pt]
+\titlespacing{\section}{0pt}{12pt}{12pt}[0pt]
 
 \titleformat{\subsection}[block]{\normalsize\bfseries}{\thesubsection.}{4pt}{}{}
-\titlespacing{\subsection}{0pt}{25pt}{12pt}[0pt]
+\titlespacing{\subsection}{0pt}{12pt}{12pt}[0pt]
+
+\titleformat{\subsubsection}[block]{\normalsize\bfseries}{\thesubsubsection.}{4pt}{}{}
+\titlespacing{\subsubsection}{0pt}{12pt}{12pt}[0pt]
 
 
 %%%%%%%%%%%%%%% Theormstyles and Definition %%%%%%%%%%%%%%%
@@ -71,8 +74,10 @@
 %%%%%%%%%%%%%%%%%% ------ Document ------ %%%%%%%%%%%%%%%%%%
 
 \begin{document}
-
-\maketitle
+\begin{minipage}[t]{\textwidth}
+	\vspace*{-1cm}
+	\maketitle
+\end{minipage}
 
 \section{Gauß-Quadratur auf $ [-1,1] $}
 Die zur Gauß-Quadratur auf dem Intervall $ [-1,1] $ mit der Gewichtsfunktion $ w\equiv1 $ gehörenden (normierten) Orthogonalpolynome sind durch die Legendre-Polynome $ L_j $ ge\-geben. Letztere erfüllen die Rekursion
@@ -86,10 +91,10 @@ Zur konkreten Implementierung wurden zwei Weg verfolgt:
 	\item Die Quadraturknoten wurden gemäß Satz 4.23 des Numerik-Skriptums über eine Eigenwertaufgabe und die Quadraturgewichte über entsprechende Eigenvektoren berechnet.
 	\item Über die rekursive Darstellung der Legendre-Polynome lassen sich lokale Beziehungen zwischen Nullstellen zweier Polynome $ L_n $ und $ L_{n+1} $ herleiten. Mittels bekannter Nullstellen des $ n $-ten Polynoms und eines Bisektions- bzw. Newton-Verfahrens wurden die Nullstellen von $ L_{n+1} $ ermittelt.
 \end{enumerate}
-In beiden Fällen können die Gewichte mit Hilfe der Nullstellen von $ L_{n+1} $ und der Legendre-Polynome $ L_0,\ldots,L_n $ explizit angegeben werden.
+In beiden Fällen können die Gewichte mit Hilfe der Nullstellen von $ L_{n+1} $ und der Legendre-Polynome $ L_0,\ldots,L_n $ explizit angegeben werden, was gerade in der zweiten Implementierung genutzt wurde.
 
 \subsection{Via Eigenwertaufgabe.}
-Mit Satz 4.23 und obiger 3-Term-Rekursion folgt (Bezeichnungen wie im Satz) $ \gamma_n^2=\frac{n^2}{4n^2-1} $ und $ \beta_n=0 $, denn $ L_{n+1}(X)=\det(IX-T) $. Damit hat die entsprechende Matrix $ T $ die Form
+Nach Satz 4.23 des Numerik-Skriptums gilt (mit den selben Bezeichnung wie im Satz) $ \beta_n=(xL_n,L_n)/\norm{L_n}^2=0 $, da eine ungerade Funktion auf einem symmetrischen Intervall integriert wird. Durch Vergleich der obigen 3-Term-Rekursion \eqref{eq:Lrek} und der im Satz folgt $ \gamma_n^2=\frac{n^2}{4n^2-1} $. Damit hat die entsprechende Matrix $ T $ die Form
 \begin{align*}
 	T=\left( \begin{array}{ccccc}
 	0 & \gamma_1 &  &  &  \\ 
@@ -107,9 +112,9 @@ wobei $ (v_j)_1 $ die 1. Komponente eines Eigenvektors $ v_j $ von $ T $ ist.
 \newline
 Mit der internen Funktion \texttt{eig} von Matlab wurden nun die Eigenwerte bzw. Eigenvektoren berechnet und gemäß \eqref{eq:weights} die Quadraturen aufgestellt.
 
-\subsection{Direkte Berechnung} 
+\subsection{Direkte Berechnung}
 \subsubsection{Direkte Berechnung der Knoten} 
-Wegen der Symmetrie der Legendrepolynome um den Ursprung genügt es die nichtnegativen Nullstellen zu be\-trachten. Für ungerades $ n $ ist $ 0 $ stets ein Quadraturknoten, also eine Nullstelle von $ L_n $.
+Wegen der Symmetrie der Legendre-Polynome um den Ursprung genügt es die nichtnegativen Nullstellen zu be\-trachten. Für ungerades $ n $ ist $ 0 $ stets ein Quadraturknoten, also eine Nullstelle von $ L_n $.
 \newline
 Wir nutzen nun folgende Eigenschaften zur besseren Bestimmung der Knoten.
 \begin{itemize}
@@ -126,14 +131,16 @@ Darauf aufbauend wendet man bei bekannten nichtnegativen Nullstellen von $ L_n $
 Bei der durchgeführten Implementierung wurde folgendes Vorgehen realisiert:
 \newline
 \textbf{Input:} Funktion $ f $ inklusive erster sowie zweiter Ableitung, Intervallpunkte $ x_1 $, $ x_2 $, zwischen denen sich die (eindeutige) Nullstelle befindet und eine Toleranz TOL.
-\begin{algorithm}[h!]
+
+\begin{algorithm}[!ht]
 	\begin{algorithmic}[1]
+		\renewcommand{\thealgorithm}{}
 		\caption{Nullstelle finden}
 		\While{(($ |f(x_1)|>TOL $ or $ |x_1-x_2|>TOL $) and $ f''(x_1)f''(x_2)>0 $)}
 		\State Eine Iteration des Bisektions-Verfahrens mit $ x_1 $ und $ x_2 $ (Skriptum: Algorithmus 7.1);
 		\EndWhile 
 		\While {($ |f(x_t)|<TOL $)}
-		\State Newton-Iteration mit Startwert $ x_1 $ bzw dem Rückgabewert der letzten Iteration (Skriptum: Algorithmus 7.12, allerdings mit anderem Abbruchkriterium);
+		\State Newton-Iteration mit Startwert $ x_1 $ bzw. dem Rückgabewert der letzten Iteration (Skriptum: Algorithmus 7.12, allerdings mit anderem Abbruchkriterium);
 		\EndWhile
 	\end{algorithmic}
 \end{algorithm}
@@ -220,7 +227,7 @@ In der zweiten Spalte befinden sich die Ergebnisse über das Eigenwertproblem, in
 
 Die Tabelle suggeriert, dass für niedrigen Grad die Knoten und damit auch die Quadraturen das selbe leisten. Für höhere Ordnung unterscheiden sie sich schon merkbar. Tatsächlich sind für $ n\geq 45 $ die Ergebnisse über die direkte Berechnung nicht mehr sinnvoll (sie befinden sich nicht in den betrachteten Intervallen). Die erste Implementierung liefert aber noch für größere Werte von $ n $ die Nullstellen der Legendre-Polynome.
 
-Die Gegenüberstellung unterstreicht die schlechte Konditionierung, die das Berechnen von Nullstellen eines Polynoms birgt. Eine konkrete Fehlerquelle ist nach einer Beobachtung das Newton-Verfahren. Das Abbruchkriterium des Bisektions-Verfahrens, das Forderungen an die zweiten Ableitungen in den betrachteten Näherungen macht, führt nicht mehr zur Konvergenz gegen die gewünschte Nullstelle. Vielmehr verlässt der Algorithmus den betrachteten Bereich und konvergiert gegen eine (beliebige) andere Nullstelle. Dies passiert gerade in der Nähe der Eins, wo Knoten nahe beieinander liegen (also bis zur zweiten Nachkommastelle übereinstimmen). Dieses Verhalten lässt sich durch das starke Variieren der Ableitung zwischen solchen Nullstellen begründen. Um dies zu umgehen, könnte man nun nur das Bisektions-Verfahren verwenden. Allerdings steigt dabei die Laufzeit spürbar an, wenn nur der Grad $ n $ größer als 20 ist.
+Die Gegenüberstellung unterstreicht die schlechte Kondition, die das Berechnen von Nullstellen eines Polynoms birgt. Eine konkrete Fehlerquelle ist nach einer Beobachtung das Newton-Verfahren. Das Abbruchkriterium des Bisektions-Verfahrens, das Forderungen an die zweiten Ableitungen in den betrachteten Näherungen macht, führt nicht mehr zur Konvergenz gegen die gewünschte Nullstelle. Vielmehr verlässt der Algorithmus den betrachteten Bereich und konvergiert gegen eine (beliebige) andere Nullstelle. Dies passiert gerade in der Nähe der Eins, wo Knoten nahe beieinander liegen (also bis zur zweiten Nachkommastelle übereinstimmen). Dieses Verhalten lässt sich durch das starke Variieren der Ableitung zwischen solchen Nullstellen begründen. Um dies zu umgehen, könnte man nun nur das Bisektions-Verfahren verwenden. Allerdings steigt dabei die Laufzeit spürbar an, wenn nur der Grad $ n $ größer als 20 ist.
 
 Zusammenfassend zeigt sich die erste Implementierung über das Eigenwertproblem unempfindlicher gegenüber der Höhe der Ordnung.
 
