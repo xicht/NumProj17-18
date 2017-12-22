@@ -1,29 +1,27 @@
-\documentclass[french, 12pt, a4paper, onesided]{scrartcl}
+\documentclass[11pt, a4paper]{article}
 \usepackage[T1]{fontenc} %font (Umlaute)
-\usepackage[utf8]{inputenc} %font
+\usepackage[latin1]{inputenc} %font
 \usepackage{mathptmx} %Font Times
 \usepackage{lmodern} %Font Latin Modern
 \usepackage{amsthm} %Defininig Theorems
 \usepackage{amsmath} %Mathematical Extention for LaTeX
 \usepackage{amsfonts} %Mathematical Fonts
 \usepackage{amssymb} %Mathematical Symbols
-\usepackage[left=2.60cm, right=2.60cm, top=2.80cm, bottom=3.40cm]{geometry} %Preferences: Page
-\usepackage[ngerman,german,english]{babel} %Language (Umlaute)
+\usepackage[left=2.50cm, right=2.50cm, top=2.50cm, bottom=3.00cm]{geometry} %Preferences: Page
+\usepackage[ngerman,german]{babel} %Language (Umlaute)
 \usepackage{paralist} %Preferences for Enumeration
 \usepackage{titlesec} %Preferences for Sections
-\usepackage[titles]{tocloft} %Preferences for Table of Contents
 \usepackage{graphicx} %Including Graphics
-\usepackage{epstopdf} %allows including in pdfs
-\usepackage{caption}  %fÃ¼r die nutzung von subfigures
-\usepackage{subcaption} %fÃ¼r die nutzung von subfigures
-
 
 
 
 %%%%%%%%%%%%%%%%% Section Preferences %%%%%%%%%%%%%%%%%
 
-\titleformat{\section}[block]{\normalsize\centering\scshape}{\thesection.}{4pt}{}{}
+\titleformat{\section}[block]{\large\centering\scshape}{\thesection.}{4pt}{}{}
 \titlespacing{\section}{0pt}{25pt}{12pt}[0pt]
+
+\titleformat{\subsection}[block]{\normalsize\bfseries}{\thesubsection.}{4pt}{}{}
+\titlespacing{\subsection}{0pt}{25pt}{12pt}[0pt]
 
 
 %%%%%%%%%%%%%%% Theormstyles and Definition %%%%%%%%%%%%%%%
@@ -61,38 +59,35 @@
 
 %%%%%%%%%%%%%%%%% Title/Author/Date %%%%%%%%%%%%%%%%%
 
-\title{\textrm{\textbf{\large Numerik Projekt 1 -- Aufgabe 1}}}
+\title{\textrm{\textbf{\Large Numerik Projekt 1 -- Aufgabe 1}}}
 
 \author{\normalsize Lukas Moser \& Bernhard Kepka}
 
-\date{}
+\date{\normalsize WS 2017}
 
 
 %%%%%%%%%%%%%%%%%% ------ Document ------ %%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
-\begin{minipage}[t]{\textwidth}
-	\vspace*{-6.7\baselineskip}
-	\maketitle
-\end{minipage}
-\vspace{-1.0cm}
+\maketitle
 
-\section{GauÃŸ-Quadratur auf $ [-1,1] $}
-Die zur GauÃŸ-Quadratur auf dem Intervall $ [-1,1] $ mit der Gewichtsfunktion $ w\equiv1 $ gehÃ¶renden (normierten) Orthogonalpolynome sind durch die Legendre-Polynome $ L_j $ gegeben. Letztere erfÃ¼llen die Rekursion
+\section{Gauß-Quadratur auf $ [-1,1] $}
+Die zur Gauß-Quadratur auf dem Intervall $ [-1,1] $ mit der Gewichtsfunktion $ w\equiv1 $ gehörenden (normierten) Orthogonalpolynome sind durch die Legendre-Polynome $ L_j $ ge\-geben. Letztere erfüllen die Rekursion
 \begin{align}\label{eq:Lrek}
-	L_0(x)=1, \quad L_1(x)=1 \quad L_{n+1}(x)=xL_n(x)-\frac{n^2}{4n^2-1}L_{n-1}(x), \; n\in\N.
+	L_0(x)=1, \quad L_1(x)=x \quad L_{n+1}(x)=xL_n(x)-\frac{n^2}{4n^2-1}L_{n-1}(x), \; n\in\N.
 \end{align}
-Da das gegeben Intervall und die Gewichtsfunktion symmetrisch sind, folgt fÃ¼r die $ n+1 $ Knoten $ (x_j) $ und Gewichte $ (\alpha_j) $ (nach einem Ãœbungsbeispiel) $ x_j=-x_{n-j} $ beziehungsweise $ \alpha_j=\alpha_{n-j} $ fÃ¼r $ j=0,\ldots, n $.
+Da das gegeben Intervall und die Gewichtsfunktion symmetrisch sind, folgt für die $ n+1 $ Knoten $ (x_j) $ und Gewichte $ (\alpha_j) $ (nach einem Übungsbeispiel) $ x_j=-x_{n-j} $ beziehungsweise $ \alpha_j=\alpha_{n-j} $ für $ j=0,\ldots, n $.
 \newline
 Zur konkreten Implementierung wurden zwei Weg verfolgt:
 \begin{enumerate}[(i)]
-	\item Die Quadraturknoten wurden gemÃ¤ÃŸ Satz 4.23 des Numerik-Skriptums Ã¼ber eine Eigenwertaufgabe und die Quadraturgewichte Ã¼ber entsprechende Eigenvektoren berechnet.
-	\item Ãœber die rekursive Darstellung der Legendre-Polynome lassen sich Ã¶rtliche Beziehungen zwischen Nullstellen zweier Polynome $ L_n $ und $ L_{n+1} $ extrahieren. Mittels bekannter Nullstellen des $ n $-ten Polynomes und eines Sekanten-Verfahrens wurden in Folge die Nullstellen von $ L_{n+1} $ ermittelt.
+	\item Die Quadraturknoten wurden gemäß Satz 4.23 des Numerik-Skriptums über eine Eigenwertaufgabe und die Quadraturgewichte über entsprechende Eigenvektoren berechnet.
+	\item Über die rekursive Darstellung der Legendre-Polynome lassen sich lokale Beziehungen zwischen Nullstellen zweier Polynome $ L_n $ und $ L_{n+1} $ herleiten. Mittels bekannter Nullstellen des $ n $-ten Polynomes und eines Bisektions- bzw. Newton-Verfahrens wurden die Nullstellen von $ L_{n+1} $ ermittelt.
 \end{enumerate}
-In beiden FÃ¤llen kÃ¶nnen die Gewichte mit Hilfe der Nullstellen von $ L_{n+1} $ und der Legendre-Polynome $ L_0,\ldots,L_n $ explizit angegeben werden.
+In beiden Fällen können die Gewichte mit Hilfe der Nullstellen von $ L_{n+1} $ und der Legendre-Polynome $ L_0,\ldots,L_n $ explizit angegeben werden.
 
-\paragraph{1. Via Eigenwertaufgabe.} Mit Satz 4.23 und obiger 3-Term-Rekursion folgt (Bezeichnungen wie im Satz) $ \gamma_n^2=\frac{n^2}{4n^2-1} $ und $ \beta_n=0 $, denn $ L_{n+1}(X)=\det(IX-T) $. Damit hat die entsprechende Matrix $ T $ die Form
+\subsection{Via Eigenwertaufgabe.}
+Mit Satz 4.23 und obiger 3-Term-Rekursion folgt (Bezeichnungen wie im Satz) $ \gamma_n^2=\frac{n^2}{4n^2-1} $ und $ \beta_n=0 $, denn $ L_{n+1}(X)=\det(IX-T) $. Damit hat die entsprechende Matrix $ T $ die Form
 \begin{align*}
 	T=\left( \begin{array}{ccccc}
 	0 & \gamma_1 &  &  &  \\ 
@@ -102,72 +97,136 @@ In beiden FÃ¤llen kÃ¶nnen die Gewichte mit Hilfe der Nullstellen von $ L_{n+1} $
 	&  &  & \gamma_n & 0
 	\end{array} \right) \in \R^{(n+1)\times(n+1)}.
 \end{align*}
-Die Nullstellen von $ L_{n+1} $ sind entsprechend die Eigenwerte von $ T $. FÃ¼r die Gewichte gilt die Beziehung
-\begin{align}
+Die Nullstellen von $ L_{n+1} $ sind die Eigenwerte von $ T $. Für die Gewichte gilt
+\begin{align}\label{eq:weights}
 	\alpha_j=\left( \dfrac{(v_j)_1}{\norm[2]{v_j}} \right)^2 \int_{-1}^1w(x)dx=2\left( \dfrac{(v_j)_1}{\norm[2]{v_j}} \right)^2,
 \end{align}
 wobei $ (v_j)_1 $ die 1. Komponente eines Eigenvektors $ v_j $ von $ T $ ist.
 \newline
-Mit den internen Funktionen von Matlab wurden nun die Eigenwerte bzw. Eigenvektoren berechnet.
+Mit der internen Funktion \texttt{eig} von Matlab wurden nun die Eigenwerte bzw. Eigenvektoren berechnet und gemäß \eqref{eq:weights} die Quadraturen aufgestellt.
 
-\paragraph{2. Rekursive Knotenberechnung.} Wegen der Symmetrie um den Ursprung genÃ¼gt es die positiven Nullstellen zu betrachten. FÃ¼r ungerades $ n $ ist $ 0 $ stets ein Quadraturknoten.
+\subsection{Direkte Knotenberechnung} 
+Wegen der Symmetrie um den Ursprung genügt es die nichtnegativen Nullstellen zu be\-trachten. Für ungerades $ n $ ist $ 0 $ stets ein Quadraturknoten, also eine Nullstelle von $ L_n $.
 \newline
-Wir nutzen nun folgende Eigenschaften zur besseren Bestimmung der Nullstellen.
+Wir nutzen nun folgende Eigenschaften zur besseren Bestimmung der Knoten.
 \begin{itemize}
-	\item FÃ¼r die Nullstellen der Legendre-Polynome $ L_1,\ldots,L_n $ gilt: Zwischen je zwei positiven Nullstellen von $ L_{n-1} $ befindet sich genau eine von $ L_n $.
-	\newline
-	Dies sieht man induktiv ein: fÃ¼r $ n=1,2,3 $ gilt die Aussage durch die entsprechenden Nullstellen. Seien nun $ x^{(n)},y^{(n)} $ zwei Nullstellen von $ L_n $. Nach Induktionsannahme befindet sich eine Nullstelle $ z^{(n-1)} $ von $ L_{n-1} $ in $ (x^{(n)},y^{(n)}) $. Da $ z^{(n-1)} $ einfach ist, hat $ L_{n-1} $ einen Vorzeichenwechsel in diesem Intervall. $ xL_n(x) $ hat konstantes Vorzeichen. Wegen \eqref{eq:Lrek} folgt also, dass das Vorzeichen von $ L_{n+1} $ in den Randpunkten (beziehungsweise in einer Umgebung von diesen) alleine von $ L_{n-1} $ bestimmt wird. Aus dem Zwischenwertsatz folgt, dass sich eine Nullstelle in $ (x^{(n)},y^{(n)}) $ befindet. Da $ L_{n-1} $ genau einmal sein Signum wechselt, kann es nur genau eine sein.
-	\item Nun folgt: es gibt eine Nullstelle von $ L_n $, die grÃ¶ÃŸer ist als alle von $ L_{n-1} $.
-	\\
-	FÃ¼r $ n=1,2,3,4,5 $ gilt dies.
-	\newline
-	Seien $ x_1^{(n-1)},\ldots,x_k^{(n-1)} $ die positiven Nullstellen von $ L_{n-1} $ mit $ k=\lfloor \frac{n}{2}\rfloor $. In den Intervallen $ (x_1^{(n-1)},x_2^{(n-1)}),\ldots,(x_{k-1}^{(n-1)},x_k^{(n-1)}) $ befinden sich genau eine Nullstelle von $ L_n $, also $ \lfloor \frac{n}{2}\rfloor-1 $. Ist $ n $ ungerade, so ist $ 0 $ eine weiter und wir haben $ n-2 $ Nullstellen in $ (-1,1) $ gefunden. Die letzten zwei mÃ¼ssen sich ebenfalls in diesem Intervall befinden. Da sie nicht mit $ \pm x_k^{(n-1)} $ Ã¼bereinstimmen, befinden sie sich in den Intervallen $ (-1,-x_k^{(n-1)})  $ und $ (x_k^{(n-1)},1) $. Wegen der Symmetrie folgt die Behauptung.
+	\item Für die Nullstellen der Legendre-Polynome $ L_1,\ldots,L_n $ gilt: Zwischen zwei nichtnegativen Nullstellen von $ L_{n-1} $ befindet sich genau eine von $ L_n $.
+	
+	Dies sieht man induktiv ein: für $ n=1,2,3 $ gilt die Aussage, wenn man explizit die Nullstellen berechnet. Seien nun $ x^{(n)},y^{(n)} $ zwei Nullstellen von $ L_n $. Nach Induktionsannahme befindet sich eine Nullstelle $ z^{(n-1)} $ von $ L_{n-1} $ in $ (x^{(n)},y^{(n)}) $. Da $ z^{(n-1)} $ einfach ist, hat $ L_{n-1} $ einen Vorzeichenwechsel in diesem Intervall, $ xL_n(x) $ hingegen nicht. Mit der 3-Term-Rekursion \eqref{eq:Lrek} sieht man, dass das Vorzeichen von $ L_{n+1} $ in einer Umgebung eines Randpunktes ($ xL_n(x) $ verschwindet dort) sich ändert. Aus dem Zwischenwertsatz folgt, dass sich eine Nullstelle in $ (x^{(n)},y^{(n)}) $ befindet. Da $ L_{n-1} $ genau einmal sein Signum wechselt, kann es nur genau eine sein (und eine mehrfache liegt auch nicht vor).
+	\item Nun folgt: Zwischen der größten Nullstelle von $ L_{n-1} $ und dem Punkt 1 befindet sich (genau) eine weitere von $ L_n $.
+	
+	Für $ n=1,2,3 $ gilt dies. Seien $ x_1^{(n-1)},\ldots,x_k^{(n-1)} $ die positiven Nullstellen von $ L_{n-1} $ mit $ k=\lfloor \frac{n}{2}\rfloor $. In jedem der Intervalle $ (x_1^{(n-1)},x_2^{(n-1)}),\ldots,(x_{k-1}^{(n-1)},x_k^{(n-1)}) $ befindet sich genau eine Nullstelle von $ L_n $, insgesamt also $ \lfloor \frac{n}{2}\rfloor-1 $. Ist $ n $ ungerade, so ist $ 0 $ eine weiter und wir haben $ n-2 $ Nullstellen in $ (-1,1) $ gefunden. Ebenso viele haben wir im Falle $ n $ gerade. Die letzten zwei müssen sich ebenfalls in diesem Intervall befinden. Da sie nicht mit $ \pm x_k^{(n-1)} $ übereinstimmen (dies sieht man mit der Rekursion), befinden sie sich in den Intervallen $ (-1,-x_k^{(n-1)})  $ und $ (x_k^{(n-1)},1) $. Wegen der Symmetrie folgt die Behauptung.
 \end{itemize}
-Darauf aufbauend fÃ¼hrt man bei bekannten (positiven) Nullstellen von $ L_n $ ein Sekantenverfahren zwischen aufeinanderfolgende durch. ZusÃ¤tzlich macht man selbiges mit dem Intervall $ (x_k^{(n)},1) $, wobei $ x_k^{(n)} $ die grÃ¶ÃŸte Nullstelle von $ L_n $sei. Je nachdem, ob $ n $ gerade oder ungerade ist, muss man noch ein Sekantenverfahren zwischen Null und der kleinsten Nullstelle durchfÃ¼hren oder Null selbst als Knoten wÃ¤hlen.
 
-\paragraph{3. Explizite Darstellung der Gewichte.} Ein Eigenvektor $ v_k $ zum Eigenwert $ x_k $ von $ T \in \R^{(n+1)\times(n+1)} $ hat die Form $ (c_0L_0(x_k),\ldots,c_nL_n(x_k))^T $, wobei $ c_j $ noch zu spezifizierende Konstanten sind. Letztere ergeben sich aus $ Tv_k\stackrel{!}{=}x_kv_k $ durch komponentenweisen Vergleich. FÃ¼r die erste Zeile gilt
+Darauf aufbauend wendet man bei bekannten nichtnegativen Nullstellen von $ L_n $ ein Bi\-sektions- bzw. Newton-Verfahren auf zwei benachbarte Nullstellen an. Zusätzlich macht man selbiges mit dem Intervall $ (x_k^{(n)},1) $, wobei $ x_k^{(n)} $ die größte Nullstelle von $ L_n $ sei. Je nachdem, ob $ n $ gerade oder ungerade ist, muss man noch gleiches zwischen Null und der kleinsten Nullstelle durchführen oder Null selbst als Knoten hinzufügen.
+
+Bei der durchgeführten Implementierung wurde folgendes Vorgehen realisiert:
+\newline
+\textbf{Input:} Funktion $ f $ inklusive erster sowie zweiter Ableitung, Intervallpunkte $ x_1 $, $ x_2 $, zwischen denen sich die (eindeutige) Nullstelle befindet und eine Toleranz TOL.
+\begin{enumerate}[(1)]
+	\item \textbf{while} (($ |f(x_1)|>TOL $ or $ |x_1-x_2|>TOL $) and $ f''(x_1)f''(x_2)>0 $) \textbf{do:}
+	\item ein Durchlauf des Bisektions-Verfahrens mit $ x_1 $ und $ x_2 $ (Skriptum: Algorithmus 7.1);
+	\item \textbf{end do;}
+	\item \textbf{while} ($ |f(x_t)|<TOL $) \textbf{do:}
+	\item ein Durchlauf der Newton-Iteration mit Startwert $ x_1 $ (Skriptum: Algorithmus 7.12, allerdings mit anderem Abbruchkriterium);
+	\item \textbf{end do;}
+\end{enumerate}
+Die Bedingung an die zweiten Ableitungen in den Eckpunkten ist heuristisch und wurde ge\-fordert, in der Hoffnung die Nullstelle befinde sich in einem Intervall, indem die erste Ableitung nicht verschwindet. Da die Nullstelle einfach ist, existiert so ein Intervall. Wenn die Krümmung des Graphen in diesem Bereich überall gleichartig ist und dadurch (möglicherweise) Extrema nicht vorhanden sind, konvergiert das Newton-Verfahren, falls man sich bereits nahe genug an der Nullstelle befindet. In allen Tests mit einem Polynom-Grad $ n\leq50 $ hat diese Heuristik tatsächlich zu einer Konvergenz geführt. Für große Wert handelte es sich bei den Grenzwerten in der Regel nicht mehr um die gewünschten Nullstellen. Ein Vergleich beider Implementierungen folgt im vierten Unterabschnitt.
+
+\subsection{Explizite Darstellung der Gewichte} 
+Ein Eigenvektor $ v_k $ zum Eigenwert $ x_k $ von $ T \in \R^{(n+1)\times(n+1)} $ hat die Form 
+\begin{align*}
+	(c_0L_0(x_k),\ldots,c_nL_n(x_k))^T,
+\end{align*}
+wobei $ c_j $ noch zu spezifizierende Konstanten sind. Letztere ergeben sich aus $ Tv_k\stackrel{!}{=}x_kv_k $ durch komponentenweises Vergleichen. Das Wissen um diese Darstellung und die darauffolgende Berechnung der Gewichte wurden aus Schwarz, Köckler: \textit{Numerische Mathematik}, Vieweg 2011, (S. 328f) entnommen.  Für die erste Zeile gilt
 \begin{align*}
 	\gamma_1 c_1 L_1(x_k) = \gamma_1c_1 x_k\stackrel{!}{=}x_k c_0 L_0(x_k)=x_kc_0,
 \end{align*}
-also $ c_1=c_0/\gamma_1 $. Wir setzen $ c_0:=1 $, damit dann $ (v_k)_1=1 $ erfÃ¼llt ist. In der $ i $-te Zeile ist mit der Rekursion \eqref{eq:Lrek}
+also $ c_1=c_0/\gamma_1 $. Wir setzen $ c_0:=1 $, damit dann $ (v_k)_1=1 $ erfüllt ist. In der $ i $-te Zeile ist mit der Rekursion \eqref{eq:Lrek}
 \begin{align*}
 	\gamma_{i-1}c_{i-2}L_{i-2}(x_k)+\gamma_ic_iL_i(x_k) &\stackrel{!}{=} x_kc_{i-1}L_{i-1}(x_k) \\
-	\iff \gamma_{i-1}c_{i-2}L_{i-2}(x_k)+\gamma_ic_i\left( x_kL_{i-1}(x_k)-\gamma_{i-1}^2L_{i-2}(x_k) \right) &= \\ 
-	\left( \gamma_{i-1}c_{i-2}-\gamma_ic_i \gamma_{i-1}^2\right) L_{i-2}(x_k)+\gamma_ic_ix_kL_{i-1}(x_k) &\stackrel{!}{=} x_kc_{i-1}L_{i-1}(x_k).
+	\implies \gamma_{i-1}c_{i-2}L_{i-2}(x_k)+\gamma_ic_i\left( x_kL_{i-1}(x_k)-\gamma_{i-1}^2L_{i-2}(x_k) \right) &\stackrel{!}{=} x_kc_{i-1}L_{i-1}(x_k) \\ 
+	\implies \left( \gamma_{i-1}c_{i-2}-\gamma_ic_i \gamma_{i-1}^2\right) L_{i-2}(x_k)+\gamma_ic_ix_kL_{i-1}(x_k) &\stackrel{!}{=} x_kc_{i-1}L_{i-1}(x_k).
 \end{align*}
 Wir haben folglich die Forderungen
 \begin{align*}
 	\gamma_{i-1}c_{i-2}-\gamma_ic_i \gamma_{i-1}^2 & = 0 \\
 	\gamma_ic_i &= c_{i-1}.
 \end{align*}
-Wenn wir letztere als rekursive Definition von $ c_j $ nutzen, $ c_i:=c_{i-1}/\gamma_i $, gilt auch die erstere
+Wenn wir die letzte Gleichung als rekursive Definition von $ c_j $ nutzen, $ c_i:=c_{i-1}/\gamma_i $, gilt auch die erste:
 \begin{align*}
 	\gamma_i\gamma_{i-1}^2c_i =\gamma_{i-1}^2c_{i-1}=\gamma_{i-1}c_{i-2}.
 \end{align*}
-Da $ T $ symmetrisch ist und nur einfache Eigenwerte besitzt, sind $ (v_k) $ zueinander orthogonal. Aus der Definition der Quadratur-Formel folgt dann
+Da $ T $ symmetrisch ist, sind $ (v_k) $ zueinander orthogonal. Aus der Definition der Quadratur-Formel folgt dann
 \begin{align*}
-	Q^{(n)}(c_kL_k)=\sum_{i=0}^{n}\alpha_ic_kL_k(x_i)=(c_0L_0,c_kL_k)_w=2\delta_{k0}
+	\sum_{i=0}^{n}\alpha_ic_kL_k(x_i)=Q^{(n)}(c_kL_k)=(c_0L_0,c_kL_k)_w=2\delta_{k0} \quad \text{für} \; k=0,\ldots n.
 \end{align*}
-und damit unter BerÃ¼cksichtigung von $ (v_k)_1=1 $
+Schreibt man diese Identitäten in einen Vektor und berücksichtigt $ (v_k)_1=1 $, so erhält man
 \begin{align*}
 	2=v_k^T2e_1 &= v_k\left(\sum_{j=0}^{n}\alpha_jc_0L_0(x_j),\ldots,\sum_{j=0}^{n}\alpha_jc_nL_n(x_j) \right) ^T = \\
-	&= v_k^T\sum_{j=0}^{n}\alpha_jv_j=\alpha_kv_k^Tv_k=\alpha_k\sum_{j=0}^{n}c_j^2L_j(x_k)^2
+	&= v_k^T\sum_{j=0}^{n}\alpha_jv_j=\alpha_kv_k^Tv_k=\alpha_k\sum_{j=0}^{n}c_j^2L_j(x_k)^2.
 \end{align*}
-FÃ¼r die Gewichte $ (\alpha_j) $ gilt in Folge
+Für die Gewichte $ (\alpha_j) $ gilt damit:
 \begin{align}
 	\alpha_j=\frac{2}{\sum_{j=0}^{n}c_j^2 L_j(x_k)^2} \qquad j=0,\ldots,n.
 \end{align}
+
+\subsection{Vergleich der zwei Implementierungen}
+Für die Gegenüberstellung wurden die Knoten auf $ [-1,1] $ auf beide Arten berechnet. Mehr Aufschluss darüber gibt die folgende Tabelle \ref{tap:Vergleich}, die einige Knoten mit 16 Stellen in den Fällen $ n=10, 30, 45 $ für den Polynom-Grad wiedergibt.
+\newline
+In der zweiten Spalte befinden sich die Ergebnisse über das Eigenwertproblem, in der dritten über die direkte Berechnung und in der letzten die absoluten Differenzen davon. Dabei wurden je zwei mit dem kleinsten bzw. größten Unterschied ausgewählt. Da die Symmetrie ausgenutzt wurde, sind nur positive Nullstellen angegeben.
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|}
+			\hline 
+			\rule[-1ex]{0pt}{3.5ex} Grad & Via Eigenwertproblem & Direkte Methode & Absolute Differenz \\ 
+			\hline 
+			\hline
+			\rule[-1ex]{0pt}{3.5ex} $ n=10 $ & 0.148874338981631 &  0.148874338981631 &  0.000000000000000 \\
+			\rule[-1ex]{0pt}{3.5ex} & 0.433395394129247  & 0.433395394129247 &  0.000000000000000 \\
+			\rule[-1ex]{0pt}{3.5ex} & 0.865063366688984  & 0.865063366688989  & 0.000000000000004 \\
+			\rule[-1ex]{0pt}{3.5ex} & 0.973906528517172 &  0.973906528517170  & 0.000000000000002 \\
+			\hline 
+			%\hline
+			%\rule[-1ex]{0pt}{3.5ex} $ n=20 $ & 0.076526521133498 &  0.076526521133497 &  0.000000000000000 \\
+			%\rule[-1ex]{0pt}{3.5ex} & 0.227785851141646 &  0.227785851141645 &  0.000000000000001 \\
+			%\rule[-1ex]{0pt}{3.5ex} & 0.373706088715420 &  0.373706088716955 &  0.000000000001535 \\
+			%\rule[-1ex]{0pt}{3.5ex} & 0.963971927277914 &  0.963971927277358 &  0.000000000000556 \\
+			%\hline 
+			\hline
+			\rule[-1ex]{0pt}{3.5ex} $ n=30 $ & 0.051471842555318 &  0.051471842555440 &  0.000000000000122 \\
+			\rule[-1ex]{0pt}{3.5ex} & 0.153869913608583  & 0.153869913609074 &  0.000000000000491 \\
+			\rule[-1ex]{0pt}{3.5ex} & 0.926200047429274  & 0.926200043360629  & 0.000000004068645 \\
+			\rule[-1ex]{0pt}{3.5ex} & 0.983668123279747  & 0.983668127580494  & 0.000000004300747 \\
+			\hline 
+			\hline
+			\rule[-1ex]{0pt}{3.5ex} $ n=45 $ &  0.205647489783264 &  0.205647490371551  & 0.000000000588287 \\
+			\rule[-1ex]{0pt}{3.5ex} & 0.338392654250603  & 0.338392668499781 &  0.000000014249178 \\
+			\rule[-1ex]{0pt}{3.5ex} &  0.922163936719000  & 0.920917699952659 &  0.001246236766342 \\
+			\rule[-1ex]{0pt}{3.5ex}  & 0.981968715034541 &  0.963996589317694  & 0.017972125716846 \\
+			\hline
+		\end{tabular} 
+		\caption{Vergleich der Methoden: Knoten in den Fällen $ n=10,30,45 $ und Differenzen.}
+		\label{tap:Vergleich}
+	\end{center}
+\end{table}
+
+Die Tabelle suggeriert, dass für niedrigen Grad die Knoten und damit auch die Quadraturen das selbe leisten. Für höhere Ordnung unterscheiden sie sich schon merkbar. Tatsächlich sind für $ n\geq 45 $ die Ergebnisse über die direkte Berechnung nicht mehr sinnvoll (sie befinden sich nicht in den betrachteten Intervallen). Die erste Implementierung liefert aber noch für größere Werte von $ n $ die Nullstellen der Legendre-Polynome.
+
+Die Gegenüberstellung unterstreicht die schlechte Kondition, die das Berechnen von Nullstellen eines Polynoms birgt. Eine konkrete Fehlerquelle ist nach einer Beobachtung das Newton-Verfahren. Das Abbruchkriterium des Bisektions-Verfahrens, das Forderungen an die zweiten Ableitungen in den betrachteten Näherungen macht, führt nicht mehr zur Konvergenz gegen die gewünschte Nullstelle. Vielmehr verlässt der Algorithmus den betrachteten Bereich und konvergiert gegen eine (beliebige) andere Nullstelle. Dies passiert gerade in der Nähe der Eins, wo Knoten nahe beieinander liegen (also bis zur zweiten Nachkommastelle übereinstimmen). Dieses Verhalten lässt sich durch das starke Variieren der Ableitung zwischen solchen Nullstellen begründen. Um dies zu umgehen, könnte man nun nur das Bisektions-Verfahren verwenden. Allerdings steigt dabei die Laufzeit spürbar an, wenn nur der Grad $ n $ größer als 20 ist.
+
+Zusammenfassend zeigt sich die erste Implementierung über das Eigenwertproblem unempfindlicher gegenüber der Höhe der Ordnung.
 
 \section{Quadratur auf $ [a,b] $ und $ [a,b]\times[c,d] $ }
 Mit Hilfe der Transformation
 \begin{align*}
 	\psi:[-1,1]\rightarrow[a,b]:\xi\mapsto a+\dfrac{b-a}{2}+\xi\dfrac{b-a}{2}=\dfrac{b+a}{2}+\xi\dfrac{b-a}{2}
 \end{align*}
-wird die Quadratur-Formel aus dem ersten Teil auf $ [a,b] $ Ã¼bertragen:
+wird die Quadratur-Formel aus dem ersten Kapitel auf $ [a,b] $ übertragen ($ f $ stetig):
 \begin{align*}
 	\int_{a}^{b}f(x)dx=\int_{-1}^{1}f(\psi(\xi))\left( \dfrac{b-a}{2} \right) d\xi \approx \sum_{j}\left( \dfrac{b-a}{2} \right)\alpha_jf(\psi(x_j)).
 \end{align*}
-Die Quadratur-Knoten $ (\tilde{x}_j) $ beziehungsweise Gewichte $ (\tilde{\alpha}_j) $ sind also gegeben durch
+Die Quadratur-Knoten $ (\tilde{x}_j) $ bzw. Gewichte $ (\tilde{\alpha}_j) $ sind also gegeben durch
 \begin{align}
 	\tilde{x}_j=\psi(x_j)=\dfrac{b+a}{2}+x_j\dfrac{b-a}{2} \qquad \tilde{\alpha}_j=\left( \dfrac{b-a}{2} \right)\alpha_j.
 \end{align}
@@ -175,34 +234,79 @@ Seien nun zwei Quadraturen $ Q^{(x)} $, $ Q^{(y)} $ auf $ [a,b] $ respektive auf
 \begin{align*}
 	\int_{c}^{d}\int_{a}^{b}f(x,y)dxdy \approx \int_{c}^{d} \sum_{i=1}^{N_x} \alpha_j f(x_i,y)dy = \sum_{i=1}^{N_x} \alpha_j \int_{c}^{d}f(x_i,y)dy \approx \sum_{i=1}^{N_x}\sum_{j=1}^{N_y}\alpha_i \beta_j f(x_i,y_j).
 \end{align*}
-Jede einzelne Quadratur-Formel ist fÃ¼r Polynome vom Grad $ 2N_x+1 $ bzw. $ 2N_y+1 $ exakt. FÃ¼r den Funktionenraum $ \Pi_{2N_y+1}^{2N_x+1}:=\left\lbrace p_x(x)p_y(y) \mid  p_x\in\Pi_{2N_x+1}, p_y\in\Pi_{2N_y+1} \right\rbrace  $ ist die Quadratur auf  $ R $ es ebenso:
+Jede einzelne Quadratur-Formel ist für Polynome vom Grad $ 2N_x+1 $ bzw. $ 2N_y+1 $ exakt. Wegen der Linearität ist die Quadratur auf $ R $ für den Funktionenraum 
 \begin{align*}
-	\int_{a}^{b}\int_{c}^{d}p_x(x)p_y(y)dydx=\int_{a}^{b}p_x(x)Q^{(y)}(p_y)dx=Q^{(x)}(p_x)Q^{(y)}(p_y).
+	\left\lbrace (x,y)\mapsto \sum_{j=0}^{2N_x+1}\sum_{k=0}^{2N_y+1} a_{jk} x^j y^k \mid  a_{jk}\in\R \right\rbrace
 \end{align*}
+es ebenso.
 
-\paragraph{4. Testen der Implementierung.} Beispiele, a priori FehlerschÃ¤tzer (Satz 4.18), Konvergenz (Satz 4.20).
+\subsection{Fehlerschranke}
+Nach Satz 4.18 des Numerik-Skriptums gilt die folgende (a priori) Darstellung für den Fehler einer Quadratur angewendet auf eine hinreichend of stetig differenzierbare Funktion $ f $:
 \begin{align*}
-	Q(f)-Q_n(f)=\frac{f^{(n+1)}(\xi)}{(2n+2)!}\int_{a}^{b}w(x)\prod_{j=0}^{n}(x-x_j)^2dx 
+	Q(f)-Q_n(f)=\frac{f^{(n+1)}(\xi)}{(2n+2)!}\int_{a}^{b}w(x)\prod_{j=0}^{n}(x-x_j)^2dx.
 \end{align*}
+Sie lässt sich durch Abschätzen vereinfachen zu
 \begin{align}\label{eq:apriori1}
-	|Q(f)-Q_n(f)|\leq\frac{\norm[\infty]{f^{(n+1)}}}{(2n+2)!}(b-a)^{2n+3}
+	|Q(f)-Q_n(f)|\leq\frac{\norm[\infty]{f^{(n+1)}}}{(2n+2)!}(b-a)^{2n+3}.
 \end{align}
-FÃ¼r symmetrische Intervalle $ [-c,c] $ erhÃ¤lt man wegen der Symmetrie der Knoten mit
-\begin{align*}
-	(x-x_j)^2(x-x_{n-j})^2=(x^2-x_j^2)^2\leq c^4\quad \text{also} \\
-	|Q(f)-Q_n(f)|\leq 2 \frac{\norm[\infty]{f^{(n+1)}}}{(2n+2)!}c^{2n+3}.
-\end{align*}
-Genauso kann man aber das Integral folgendermaÃŸen abschÃ¤tzen:
+Genauso kann man das Integral abschätzen durch die Rechnung
 \begin{align}\label{eq:apriori2}
 	\int_{a}^{b}\prod_{j=0}^{n}(x-x_j)^2dx \leq (b-a)^2\int_{a}^{b}\prod_{j=0 , \ j\neq k}^{n}(x-x_j)^2dx=(b-a)^2\alpha_k\prod_{j=0 , \ j\neq k}^{n}(x_k-x_j)^2,
 \end{align}
-denn es liegt ein Polynom vom Grad $ 2n $ vor. Man wÃ¤hle $ k $ natÃ¼rlich so, dass die Differenzen mÃ¶glichst klein sind. Im Falle symmetrischer Intervalle erhÃ¤lt man
-\begin{align*}
-	\int_{-c}^{c}\prod_{j=0}^{n}(x-x_j)^2dx \leq 4c^2\alpha_k\prod_{j=0 , \ j\neq k}^{n}x_j^2,
-\end{align*}
-wenn man schÃ¤tzungsweise $ x_k=0 $ setzt.
+denn es liegt ein Polynom vom Grad $ 2n $ vor. Man wähle $ k $ so, dass die Differenzen möglichst klein sind.
+
+\subsection{Testen der Implementierung}
+Um die Ordnung der Quadraturen zu verifizieren, wurden Polynome unterschiedlichen Gra\-des auf dem Intervall $ [0,100] $ betrachtet. Die Anzahl der Knoten wurde dabei zwischen $ 1 $ und $ 22 $ variiert. Ein Graph mit den relativen Fehlern findet sich in Abbildung \ref{fig:relError1D}. Es ist ersichtlich, dass die von der Theorie her vorgegebene Genauigkeit erfüllt wird. (Denn die Ordnung beträgt $ 2n+2 $ für $ n+1 $ Knoten.)
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.9\linewidth]{figure/Rel-Fehler-1D}
+	\caption{Relativer Fehler der Quadratur auf $ [0,100] $ angewendet auf Polynome mit Grad zwischen 10 und 42 bei einer Knotenanzahl von 1 bis 22.}
+	\label{fig:relError1D}
+\end{figure}
+
+Um die Konvergenzrate zu betrachten, wurde die Exponentialfunktion auf dem Intervall $ [-10,20] $ mit einer Knotenanzahl zwischen 1 und 25 integriert. Die Abbildung \ref{fig:relError1DExp} zeigt den relativen Fehler sowie die a priori Fehlerschranke zu \eqref{eq:apriori1} und \eqref{eq:apriori2}. Man erkennt, dass der Unterschied zu den tatsächlichen Ergebnissen in der Größenordnung $ 10^5 $  für die zweite Fehlerabschätzung liegt. Die erste Abschätzung weist dagegen einen viel größeren Abstand auf.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.85\linewidth]{figure/Rel-Fehler-Exp.eps}
+	\caption{Relativer Fehler zur num. Integration von $e^x$ über Anzahl der Knoten auf $ [-10,20] $. Die Fehlerabschätzungen wurden durch \eqref{eq:apriori1} bzw. \eqref{eq:apriori2} berechnet.}
+	\label{fig:relError1DExp}
+\end{figure}
+
+Zuletzt wurde ein Beispiel von Runge dazu verwendet, um die Genauigkeit zu untersuchen. Da die Quadraturen auf der Polynom-Interpolation basieren, ist zu erwarten, dass bei einer schlechten Approximation der Funktion auch große Fehler auftreten. Die hier betrachtete Runge-Funktion lautet $ (1+x^2)^{-1} $ auf $ [-20,20] $. Einen Graphen der Funktion und der Interpolations-Polynome mit den Quadratur-Knoten zur Knotenanzahl 11, 16, 31 (für das Intervall $ [-20,20] $) als Stützstellen ist in Abbildung \ref{fig:RungePoly} zu finden. Man erkennt, dass die ungeraden Interpolations-Polynome stark um die Stützwerte schwingen. Für das Polynom mit ungeradem Grad, passiert dies (vor allem für höheren Grad) nur am Rand. Dafür ist im Nullpunkt der Fehler größer. Die Quadratur liefert für eine Knotenanzahl zwischen 1 und 50 Ergebnisse, die auf zwei Nachkommastellen genau sind, siehe Abbildung \ref{fig:RungeQuadratur1}. (Man erkennt darüber hinaus, dass eine gerade Anzahl an Stützstellen bessere Werte liefert. Der Grund dafür ist das weniger starke Variieren ungerader Interpolations-Polynome bei der Approximation.) Für einen Fehler in der Größenordnung der Maschinengenauigkeit muss die Knotenanzahl größer als 350 sein. Dieses Resultat wird in der Theorie durch Satz 4.20 des Numerik-Skriptums sichergestellt. Obwohl der Fehler der Interpolation nicht gegen Null konvergiert (Ableitungen höherer Ordnung wachsen in der Nähe des Nullpunktes stark an), passiert das bei der Gauß-Quadratur sehr wohl (siehe Abbildung \ref{fig:RungeQuadratur2}).
+\newpage
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=1\linewidth]{figure/RungePoly.eps}
+	\caption{Runge-Funktion und zugehörige Interpolations-Polynome verschiedenen Grades mit entsprechenden Quadratur-Knoten als Stützstellen.}
+	\label{fig:RungePoly}
+\end{figure}
+\newpage
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=1\linewidth]{figure/Runge-fkt-Quadratur1}
+	\caption{Relativer Fehler zur num. Integration der Runge-Funktion auf $ [-20,20] $ über Anzahl der Stützstellen.}
+	\label{fig:RungeQuadratur1}
+\end{figure}
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.9\linewidth]{figure/Runge-fkt-Quadratur2}
+	\caption{Relativer Fehler der Quadratur auf $ [-20,20] $ angewendet auf die Runge-Funktion über Anzahl der Stützstellen von 25 bis 350 (mit Schrittweite 25).}
+	\label{fig:RungeQuadratur2}
+\end{figure}
+\newpage
+Auf dem Rechteck $ [0,1]\times[0,5] $ wurden Polynome mit unterschiedlichem Grad in $ x $ bzw. $ y $ numerisch integriert. (Genauer wurde das Produkt von zwei Polynomen in $ x $ respektive in $ y $ betrachtet. In diesem Sinne ist auch der angegebene Grad zu verstehen.) Die Knotenanzahl wurde in beiden Koordinaten zwischen 1 und 22 gewählt. Die Ergebnisse sind in Abbildung \ref{fig:relErrorR} festgehalten. Man erkennt, dass der Fehler vom höchsten Grad abhängt und über der zu erwartenden Knotenanzahl in der Maschinengenauigkeit liegt. Zum Beispiel liegt der Fehler des ersten Polynoms (Grad $ 8\times 34 $, blau) in der Größenordnung $ 10^{-15} $ bei 17 Stützstellen (also Ordnung 34).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.00\linewidth]{figure/Rel-Fehler-R.eps}
+	\caption{Relativer Fehler zur num. Integration von Polynomen mit zwei Variablen auf $ [0,1]\times[0,5] $ über Anzahl von Quadraturknoten in beiden Koordinaten zwischen 1 und 22.}
+	\label{fig:relErrorR}
+\end{figure}
 
 \section{Quadratur auf $ \hat{T} $}
+\subsection{Interpolations-Quadratur}
 Sei das zweidimensionale Dreieck $ \hat{T}=\text{conv}\{ e_0,e_1,e_2 \} $ mit $ e_0=(0,0)^T $, $ e_1=(1,0)^T $, $ e_2=(0,1)^T $ gegeben. Die Kantenmittelpunkte seien $ k_1=(1/2,0)^T $, $ k_2=(0,1/2)^T $, $ k_2=(1/2,1/2)^T $ und
 \begin{align*}
 	P_n:=\left\lbrace \sum_{j=0}^{n}\sum_{k=0}^{n-j}a_{jk} x^j y^k \mid a_{jk}\in\R \right\rbrace 
@@ -211,96 +315,83 @@ der Funktionenraum der Polynome in $ x,y $ mit maximalem Grad $ n $.
 \newline
 Um Quadraturen $ Q^{(1)} $, $ Q^{(2)} $ auf $ \hat{T} $ zu definieren betrachten wir die Interpolationsaufgaben:
 \begin{itemize}
-	\item[(a)] Gesucht $ p_1\in P_1 $ mit $ p_1(e_j)=f(e_j) $ fÃ¼r $ j=0,1,2 $ bzw.
-	\item[(b)] gesucht $ p_2\in P_2 $ mit $ p_2(e_j)=f(e_j) $ fÃ¼r $ j=0,1,2 $ und $ p_2(k_j)=f(k_j) $ fÃ¼r $ j=1,2,3 $.
+	\item[(a)] Gesucht $ p_1\in P_1 $ mit $ p_1(e_j)=f(e_j) $ für $ j=0,1,2 $.
+	\item[(b)] Gesucht $ p_2\in P_2 $ mit $ p_2(e_j)=f(e_j) $ für $ j=0,1,2 $ und $ p_2(k_j)=f(k_j) $ für $ j=1,2,3 $.
 \end{itemize}
-Beide Probleme lassen sich stets und eindeutig durch Basispolynome lÃ¶sen.
+Beide Probleme lassen sich stets und eindeutig durch Basispolynome lösen.
 \begin{itemize}
-	\item[Ad(a):] Man wÃ¤hle
+	\item[Ad(a):] Man wähle:
 	\begin{align*}
 		E_0(x,y):=1-x-y, \quad E_1(x,y):=x, \quad E_2(x,y):=y.
 	\end{align*}
-	FÃ¼r diese Polynome gilt $ E_j(e_k)=\delta_{jk} $. Die LÃ¶sung der Interpolation ist gegeben durch $ p_1(x,y)=\sum_{j=0}^{2}E_j(x,y)f(e_j) $ und die Gewichte $ (\alpha_j) $ der Quadratur-Formel $ Q^{(1)} $
+	Für diese Polynome gilt $ E_j(e_k)=\delta_{jk} $. Die Lösung der Interpolation ist gegeben durch $ p_1(x,y)=\sum_{j=0}^{2}E_j(x,y)f(e_j) $ und die Gewichte $ (\alpha_j) $ der Quadratur-Formel $ Q^{(1)} $
 	\begin{align*}
 		\alpha_j= \int_{\hat{T}} E_j(x,y) d(x,y) \quad \text{also} \quad \alpha_0=\alpha_1=\alpha_2=\frac{1}{6}.
 	\end{align*}
-	\item[Ad(b)] Im selben Sinne ist mit
+	\item[Ad(b)]: Im selben Sinne ist mit
 	\begin{align*}
 		E_0(x,y):=2x^2+2y^2+4xy-3x-3y+1, \quad E_1(x,y):=2x^2-x, \quad E_2(x,y):=2y^2-y, \\
 		K_1(x,y):=-4x^2-4xy+4x, \quad K_2(x,y):=-4y^2-4xy+4y, \quad K_3(x,y):=4xy
 	\end{align*}
-	stets $ E_j(e_k)=\delta_{jk} $ und $ K_j(k_i)=\delta_{ji} $ erfÃ¼llt und damit das Interpolationsproblem stets unzweideutig lÃ¶sbar. Die Gewichte $ (\alpha_j) $ sind gegeben durch $ \alpha_j=\int_{\hat{T}} E_j(x,y) d(x,y) $ fÃ¼r $ j=0,1,2 $ und $ \alpha_j=\int_{\hat{T}} K_j(x,y) d(x,y) $ fÃ¼r $ j=3,4,5 $. Es folgt $ \alpha_0=\alpha_1=\alpha_2=0 $ und $ \alpha_3=\alpha_4=\alpha_5=\frac{1}{6} $.
+	stets $ E_j(e_k)=\delta_{jk} $ und $ K_j(k_i)=\delta_{ji} $ erfüllt und damit das Interpolationsproblem stets unzweideutig lösbar. Die Gewichte $ (\alpha_j) $ sind gegeben durch
+	\begin{align*}
+		\alpha_j=\int_{\hat{T}} E_j(x,y) d(x,y) \quad \text{bzw.} \quad =\int_{\hat{T}} K_j(x,y) d(x,y).
+	\end{align*}
+	Es folgt $ \alpha_0=\alpha_1=\alpha_2=0 $ und $ \alpha_3=\alpha_4=\alpha_5=\frac{1}{6} $.
 \end{itemize}
 Die Quadratur-Formeln sind also
 \begin{align}
 	Q^{(1)}(f) &= \frac{1}{6}\left( f(0,0)+f(1,0)+f(0,1) \right) \\
 	Q^{(2)}(f) &= \frac{1}{6}\left(  f(1/2,0)+f(0,1/2)+f(1/2,1/2) \right). 
 \end{align}
+
+\subsection{Via Duffy-Transformation}
 Mit der Duffy-Transformation
 \begin{align*}
 	\Psi:[0,1]^2\rightarrow \hat{T}: (\xi,\eta)\mapsto (\xi,(1-\xi)\eta)
 \end{align*} 
-lÃ¤sst sich eine Quadratur auf dem Einheitsquadrat auf dem Dreieck definieren. (Diese Transformation lÃ¤sst die erste Koordinate invariant und die zweite wird entsprechend der HÃ¶he des Dreiecks $ \hat{T} $ gestaucht.) Mit der Transformationsformel folgt
+lässt sich eine Quadratur auf $ [0,1]^2 $ auf dem Dreieck definieren. (Diese Transformation lässt die erste Koordinate invariant und die zweite wird entsprechend der Höhe des Dreiecks $ \hat{T} $ gestaucht.) Mit der Transformationsformel folgt
 \begin{align*}
 	\int_{\hat{T}=\Psi([0,1]^2)}f(x,y)d(x,y) = \int_{[0,1]^2}f(\xi,(1-\xi)\eta)(1-\xi)d(\xi,\eta) \quad \text{mit } |\det D\Psi|=(1-\xi).
 \end{align*}
-Also folgt mit zwei Quadraturen auf $ [0,1] $
+Mit zwei gegebenen Quadraturen auf $ [0,1] $ gilt mit Fubini:
 \begin{align*}
 	\int_{\hat{T}}f(x,y)d(x,y) \approx \sum_{i=0}^{N_x}\sum_{k=0}^{N_y}\alpha_i\beta_kf(x_i,(1-x_i)y_k)(1-x_i).
 \end{align*}
-Um die Ordnung der Quadratur auf $ \hat{T} $ zu untersuchen, sei $ p\in P_n $, also
+Um die Ordnung der Quadratur auf $ \hat{T} $ zu untersuchen, sei $ p\in P_n $ also
 \begin{align*}
 	p(\Psi(x,y))(1-x)=\sum_{k=0}^{n}\sum_{j=0}^{n-k}a_{jk}x^k(1-x)^{j+1}y^j.
 \end{align*}
-In $ x $ hat $ p $ folglich den Grad $ k+j+1=n+1 $ und in $ y $ also $ n $. Damit $ p $ exakt integriert wird, muss $ n+1=2N_x+1 $ oder $ N_x> \lfloor n/2 \rfloor $ und $ N_y\geq\lfloor n/2 \rfloor $ erfÃ¼llt sein.
+In $ x $ hat $ p $ den Grad $ k+j+1=n+1 $ und in $ y $ also $ n $. Damit $ p $ exakt integriert wird, muss $ n+1 \leq 2N_x+1 $ oder $ N_x> \lfloor n/2 \rfloor $ und $ N_y\geq\lfloor n/2 \rfloor $ erfüllt sein. Die Knotenanzahl muss also in der ersten Koordinate echt größer $ \lfloor n/2 \rfloor+1 $ und in der zweiten größer oder gleich $ \lfloor n/2 \rfloor+1 $ sein.
+\newpage
+Die Duffy-Transformation lässt sich noch für das Dreieck
+\begin{align*}
+	\tilde{T}:= \text{conv}\left\lbrace (a,c)^T,(a,d)^T,(b,c)^T \right\rbrace
+\end{align*} 
+mit $ a<b,c<d $ anwenden durch die Variante:
+\begin{align*}
+	\Psi:[a,b]\times[c,d]\rightarrow \tilde{T}: (\xi,\eta)\mapsto \left( \xi,\left( 1-\dfrac{\xi-a}{b-a}\right) \eta \right).
+\end{align*} 
+Man erhält dann
+\begin{align*}
+\int_{\tilde{T}}f(x,y)d(x,y) = \int_{[a,b]\times[c,d]}f\left( \xi,\left( 1-\dfrac{\xi-a}{b-a} \right)\eta \right)  \left( 1-\dfrac{\xi-a}{b-a}\right)d(\xi,\eta)
+\\
+\approx \sum_{i=0}^{N_x}\sum_{k=0}^{N_y}\alpha_i\beta_k f\left(  x_i,\left( 1-\dfrac{x_i-a}{b-a} \right)y_k \right) \left( 1-\dfrac{x_i-a}{b-a} \right)
+ \quad \text{mit } |\det D\Psi|=\left( 1-\dfrac{\xi-a}{b-a}\right).
+\end{align*}
 
+\subsection{Testen der Implementierung}
+Auf dem Dreieck $ \hat{T} $ wurden analog zum Rechteck Polynome in $ x $ und $ y $ integriert (also das Produkt zweier Polynome). Dabei wurde hier nur die Implementierung mit Hilfe der Duffy-Transformation betrachtet. Die Anzahl der Stützstellen variiert in beiden Koordinaten simultan von 1 bis 15 (siehe Abbildung \ref{fig:relErrorT}). Die Ergebnisse entsprechen den Erwartungen. Zum Beispiel werden für das vorletzte Polynom (Grad $ 12\times 5 $, violett) 10 Stützstellen benötigt, um eine hohe Genauigkeit zu erreichen. Denn der größte Grad in $ x $ liegt bei $ 12+5+1=18 $ (wegen der Nichtlinearität der Duffy-Transformation). Es werden daher $  \lfloor 18/2 \rfloor+1=10 $ Knoten gebraucht.
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.9\linewidth]{Rel-Fehler-1D.eps}
-	\caption{Vergleich relativer Fehler der Quadratur von Polynomen verschiedenen Grades Ã¼ber verschiedene Anzahl von Quadraturknoten.}
-	\label{fig:relError1D}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Rel-Fehler-Exp.eps}
-	\caption{Relativer Fehler der Quadratur $e^x$ verschiedene Anzahl von Quadraturknoten. Die FehlerabschÃ¤tzungen wurden durch ~\eqref{eq:apriori1} bzw ~\eqref{eq:apriori2} berechnet.}
-	\label{fig:relError1DExp}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Rel-Fehler-R.eps}
-	\caption{Vergleich von relativen Fehler der Quadratur von Polynomen mit 2 Unbestimmten konstanten Grades auf $[0,1]^2$ Ã¼ber verschiedene Anzahl von Quadraturknoten.}
-	\label{fig:relErrorR}
-\end{figure}
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.9\linewidth]{Rel-Fehler-R.eps}
-\caption{Vergleich von relativen Fehler der Quadratur von Polynomen mit 2 Unbestimmten verschiedenen Grades auf $\hat{T}$ Ã¼ber verschiedene Anzahl von Quadraturknoten.}
-\label{fig:relErrort}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\begin{subfigure}[b]{0.7\textwidth}
-		\includegraphics[width=1\linewidth]{Runge-fkt-poly.eps}
-		\caption{Vergleich von Runge-Funktion und den Polynomen, die die implizit in der GauÃŸ-Quadratur genutzt werden.}
-		\label{fig:RungePoly}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.7\textwidth}
-		\includegraphics[width=1\linewidth]{Runge-fkt-Quadratur.eps}
-		\caption{Vergleich der Werte der Quadratur Runge-Funktion, entsprechend der Anzahl der Quadraturknoten.}
-		\label{fig:RungeQuadratur}
-	\end{subfigure}
-	\caption{Runge-Funktion und Interpolation}
-	\label{fig:RungeFkt}
+	\includegraphics[width=0.85\linewidth]{figure/Rel-Fehler-T.eps}
+	\caption{Relativer Fehler zur num. Integration von Polynomen in zwei Variablen verschiedenen Grades auf $\hat{T}$ über Anzahl von Quadraturknoten in beiden Koordinaten von 1 bis 15.}
+	\label{fig:relErrorT}
 \end{figure}
 
 \end{document}
 
-%Version 1 (7.12.17) BK
+%Version 3.141592643 (22.12.17) BK
 
 
 
