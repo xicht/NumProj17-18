@@ -244,6 +244,10 @@ Die Quadratur-Knoten $ (\tilde{x}_j) $ bzw. Gewichte $ (\tilde{\alpha}_j) $ sind
 \begin{align}
 	\tilde{x}_j=\psi(x_j)=\dfrac{b+a}{2}+x_j\dfrac{b-a}{2} \qquad \tilde{\alpha}_j=\left( \dfrac{b-a}{2} \right)\alpha_j.
 \end{align}
+Damit gilt für alle Polynome $ p $ mit zugehörigen Grad $ N $, dass \begin{align*}
+	\tilde{p}(x) := \dfrac{b-a}{2} *p(\dfrac{b+a}{2}+x\dfrac{b-a}{2})
+\end{align*}
+auch vom Grad $ N $ ist. Somit ist die Ordnung der neuen Quadratur gleich der Ordnung der ursprünglichen.\\
 Seien nun zwei Quadraturen $ Q^{(x)} $, $ Q^{(y)} $ auf $ [a,b] $ respektive auf $ [c,d] $ mit Knoten $ (x_i) $, $ (y_j) $  und Gewichten $ (\alpha_i) $, $ (\beta_j) $ gegeben. Auf $ R:=[a,b]\times[c,d] $ folgt mit Fubini
 \begin{align*}
 	\int_{c}^{d}\int_{a}^{b}f(x,y)dxdy \approx \int_{c}^{d} \sum_{i=1}^{N_x} \alpha_j f(x_i,y)dy = \sum_{i=1}^{N_x} \alpha_j \int_{c}^{d}f(x_i,y)dy \approx \sum_{i=1}^{N_x}\sum_{j=1}^{N_y}\alpha_i \beta_j f(x_i,y_j).
