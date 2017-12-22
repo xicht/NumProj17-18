@@ -107,7 +107,8 @@ wobei $ (v_j)_1 $ die 1. Komponente eines Eigenvektors $ v_j $ von $ T $ ist.
 \newline
 Mit der internen Funktion \texttt{eig} von Matlab wurden nun die Eigenwerte bzw. Eigenvektoren berechnet und gemäß \eqref{eq:weights} die Quadraturen aufgestellt.
 
-\subsection{Direkte Knotenberechnung} 
+\subsection{Direkte Berechnung} 
+\subsubsection{Direkte Berechnung der Knoten} 
 Wegen der Symmetrie der Legendrepolynome um den Ursprung genügt es die nichtnegativen Nullstellen zu be\-trachten. Für ungerades $ n $ ist $ 0 $ stets ein Quadraturknoten, also eine Nullstelle von $ L_n $.
 \newline
 Wir nutzen nun folgende Eigenschaften zur besseren Bestimmung der Knoten.
@@ -139,7 +140,7 @@ Bei der durchgeführten Implementierung wurde folgendes Vorgehen realisiert:
 
 Die Bedingung an die zweiten Ableitungen in den Eckpunkten ist heuristisch und wurde ge\-fordert, in der Hoffnung die Nullstelle befinde sich in einem Intervall, indem die erste Ableitung nicht verschwindet. Da die Nullstelle einfach ist, existiert so ein Intervall. Wenn die Krümmung des Graphen in diesem Bereich überall gleichartig ist und dadurch (möglicherweise) Extrema nicht vorhanden sind, konvergiert das Newton-Verfahren, falls man sich bereits nahe genug an der Nullstelle befindet. In allen Tests mit einem Polynom-Grad $ n\leq50 $ hat diese Heuristik tatsächlich zu einer Konvergenz geführt. Für große Wert handelte es sich bei den Grenzwerten in der Regel nicht mehr um die gewünschten Nullstellen. Ein Vergleich beider Implementierungen folgt im vierten Unterabschnitt.
 
-\subsection{Explizite Darstellung der Gewichte} 
+\subsubsection{Explizite Darstellung der Gewichte} 
 Ein Eigenvektor $ v_k $ zum Eigenwert $ x_k $ von $ T \in \R^{(n+1)\times(n+1)} $ hat die Form 
 \begin{align*}
 	(c_0L_0(x_k),\ldots,c_nL_n(x_k))^T,
@@ -224,7 +225,7 @@ Die Gegenüberstellung unterstreicht die schlechte Konditionierung, die das Berec
 Zusammenfassend zeigt sich die erste Implementierung über das Eigenwertproblem unempfindlicher gegenüber der Höhe der Ordnung.
 
 \section{Quadratur auf $ [a,b] $ und $ [a,b]\times[c,d] $ }
-Mit Hilfe der Transformation
+Mittels der Transformation
 \begin{align*}
 	\psi:[-1,1]\rightarrow[a,b]:\xi\mapsto a+\dfrac{b-a}{2}+\xi\dfrac{b-a}{2}=\dfrac{b+a}{2}+\xi\dfrac{b-a}{2}
 \end{align*}
