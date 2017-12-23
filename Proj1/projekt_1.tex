@@ -74,7 +74,7 @@
 %%%%%%%%%%%%%%%%%% ------ Document ------ %%%%%%%%%%%%%%%%%%
 
 \begin{document}
-\begin{minipage}[t]{\textwidth}
+\begin{minipage}[t]{0.96\textwidth}
 	\vspace*{-1cm}
 	\maketitle
 \end{minipage}
@@ -186,7 +186,7 @@ Für die Gewichte $ (\alpha_j) $ gilt damit:
 \end{align}
 
 \subsection{Vergleich der zwei Implementierungen}
-Für die Gegenüberstellung wurden die Knoten auf $ [-1,1] $ auf beide Arten berechnet. Mehr Aufschluss darüber gibt die folgende Tabelle \ref{tap:Vergleich}, die einige Knoten mit 16 Stellen in den Fällen $ n=10, 30, 45 $ für den Polynom-Grad wiedergibt.
+Für die Gegenüberstellung wurden die Knoten auf $ [-1,1] $ auf beide Arten berechnet. Mehr Aufschluss darüber gibt die folgende Tabelle \ref{tap:Vergleich}, die einige Knoten mit 16 Stellen in den Fällen $ n=10, 30, 45 $ für den Grad der Legendre-Polynome wiedergibt.
 \newline
 In der zweiten Spalte befinden sich die Ergebnisse über das Eigenwertproblem, in der dritten über die direkte Berechnung und in der letzten die absoluten Differenzen davon. Dabei wurden je zwei mit dem kleinsten bzw. größten Unterschied ausgewählt. Da die Symmetrie ausgenutzt wurde, sind nur positive Nullstellen angegeben.
 \begin{table}[ht]
@@ -244,17 +244,15 @@ Die Quadratur-Knoten $ (\tilde{x}_j) $ bzw. Gewichte $ (\tilde{\alpha}_j) $ sind
 \begin{align}
 	\tilde{x}_j=\psi(x_j)=\dfrac{b+a}{2}+x_j\dfrac{b-a}{2} \qquad \tilde{\alpha}_j=\left( \dfrac{b-a}{2} \right)\alpha_j.
 \end{align}
-Damit gilt für alle Polynome $ p $ mit zugehörigen Grad $ N $, dass \begin{align*}
-	\tilde{p}(x) := \dfrac{b-a}{2} *p(\dfrac{b+a}{2}+x\dfrac{b-a}{2})
-\end{align*}
-auch vom Grad $ N $ ist. Somit ist die Ordnung der neuen Quadratur gleich der Ordnung der ursprünglichen.\\
+Da die die Transformation $ \psi $ linear ist, ändert sich der Grad eines Polynoms und damit die Ordnung der Quadratur nicht.
+
 Seien nun zwei Quadraturen $ Q^{(x)} $, $ Q^{(y)} $ auf $ [a,b] $ respektive auf $ [c,d] $ mit Knoten $ (x_i) $, $ (y_j) $  und Gewichten $ (\alpha_i) $, $ (\beta_j) $ gegeben. Auf $ R:=[a,b]\times[c,d] $ folgt mit Fubini
 \begin{align*}
 	\int_{c}^{d}\int_{a}^{b}f(x,y)dxdy \approx \int_{c}^{d} \sum_{i=1}^{N_x} \alpha_j f(x_i,y)dy = \sum_{i=1}^{N_x} \alpha_j \int_{c}^{d}f(x_i,y)dy \approx \sum_{i=1}^{N_x}\sum_{j=1}^{N_y}\alpha_i \beta_j f(x_i,y_j).
 \end{align*}
 Jede einzelne Quadratur-Formel ist für Polynome vom Grad $ 2N_x+1 $ bzw. $ 2N_y+1 $ exakt. Wegen der Linearität ist die Quadratur auf $ R $ für den Funktionenraum 
 \begin{align*}
-	\left\lbrace (x,y)\mapsto \sum_{j=0}^{2N_x+1}\sum_{k=0}^{2N_y+1} a_{jk} x^j y^k \mid  a_{jk}\in\R \right\rbrace
+	\left\lbrace \left. (x,y)\mapsto \sum_{j=0}^{2N_x+1}\sum_{k=0}^{2N_y+1} a_{jk} x^j y^k \right|  a_{jk}\in\R\right\rbrace
 \end{align*}
 es ebenso.
 
